@@ -13,7 +13,6 @@ import XCTest
 struct Future_Take_HomeTests {
 
     @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
         let controller = WorkoutsController()
         #expect(controller.workoutSummaries.isNotEmpty)
     }

@@ -10,9 +10,11 @@ import SwiftData
 
 @main
 struct Future_Take_HomeApp: App {
+    private var controller = WorkoutsController()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(controller: controller)
         }
     }
 }

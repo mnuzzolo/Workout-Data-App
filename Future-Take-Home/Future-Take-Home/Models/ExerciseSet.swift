@@ -14,7 +14,7 @@ public enum ExerciseSetType: String, Codable, CaseIterable {
 }
 
 /// This is one set of an exercise created by the coach for the user to perform. For example, 12 reps of Bicep Curls at 30 lbs
-public struct ExerciseSet: Codable, Equatable {
+public struct ExerciseSet: Identifiable, Codable, Equatable, Hashable {
     public var id: String
     public var exercise: Exercise?
     public var type: ExerciseSetType = .unknown

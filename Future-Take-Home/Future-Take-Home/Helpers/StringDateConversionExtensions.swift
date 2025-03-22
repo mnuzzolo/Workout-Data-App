@@ -27,7 +27,7 @@ extension Date {
         return dateFormatter
     }()
     
-    public func asString(includeSeconds: Bool = true, includeSubseconds: Bool = true) -> String? {
+    public func asString(includeSeconds: Bool = false, includeSubseconds: Bool = false) -> String? {
         if includeSeconds == false {
             return Date.iso8601DateOnlyFormatter.string(from: self)
         } else if includeSubseconds == true {
