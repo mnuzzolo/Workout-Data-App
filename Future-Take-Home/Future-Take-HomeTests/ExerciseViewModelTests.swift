@@ -15,7 +15,9 @@ class ExerciseViewModelTests: XCTestCase {
     let controller = WorkoutsController()
     var sut: ExerciseViewModel!
     
-    override func setUp() {
+    override func setUp() async throws {
+        let controller = WorkoutsController(loadData: false)
+        await controller.loadLocalData()
         sut = ExerciseViewModel(sets: controller.getSortedExercises().first!)
     }
     

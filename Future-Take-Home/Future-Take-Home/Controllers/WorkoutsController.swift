@@ -14,11 +14,18 @@ public class WorkoutsController: ObservableObject {
     // Dictionary of Exercise Set data, stored by ID
     internal var excerciseHistory = [String: [ExerciseSetSummary]]()
     
-    init() {
-        loadLocalData()
-    }
+    // Sorted array of ExerciseSetSummary arrays (alphabetically)
+    @Published var sortedExercises = [[ExerciseSetSummary]]()
     
-    func loadLocalData() {
+    init(loadData: Bool = true) {
+        if loadData {
+            Task {
+                await loadLocalData()
+            }
+        }
+    }
+
+    func loadLocalData() async {
         let summaryUrls = Bundle.main.urls(forResourcesWithExtension: ".json", subdirectory: nil) ?? []
         
         // Populate workout summary data
@@ -41,6 +48,10 @@ public class WorkoutsController: ObservableObject {
                     }
                 }
             }
+        }
+        
+        await MainActor.run {
+            self.sortedExercises = getSortedExercises()
         }
     }
     

@@ -10,9 +10,12 @@ import XCTest
 @testable import Future_Take_Home
 
 class WorkoutControllerTests: XCTestCase {
+    
+    var sut: WorkoutsController!
 
-    override func setUp() {
-        // Nothing to do here for now.
+    override func setUp() async throws {
+        sut = WorkoutsController(loadData: false)
+        await sut.loadLocalData()
     }
 
     override func tearDown() {
@@ -20,13 +23,11 @@ class WorkoutControllerTests: XCTestCase {
     }
 
     func testWorkoutsController_OnInitLoadsData() {
-        let sut = WorkoutsController()
         XCTAssertTrue(sut.workoutSummaries.isNotEmpty)
         XCTAssertTrue(sut.excerciseHistory.isNotEmpty)
     }
     
-    func testWorkoutsController_VerifySortedExercises() {
-        let sut = WorkoutsController()
+    func testWorkoutsController_VerifySortedExercises() async {
         var previousExercise = ""
         for exercise in sut.getSortedExercises() {
             if previousExercise.isNotEmpty {

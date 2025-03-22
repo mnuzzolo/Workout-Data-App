@@ -11,14 +11,14 @@ import SwiftData
 // Main View of the app - displays a header with calorie data
 // and a list of Exercises that have been completed that can be navigated to.
 struct ContentView: View {
-    var controller: WorkoutsController
+    @ObservedObject var controller: WorkoutsController
     
     var body: some View {
         NavigationStack {
             List {
                 headerView
                 Section("Exercises") {
-                    ForEach(Array(controller.getSortedExercises()), id: \.self) { exercise in
+                    ForEach(Array(controller.sortedExercises), id: \.self) { exercise in
                         NavigationLink {
                             ExerciseDetailView(viewModel: ExerciseViewModel(sets: exercise))
                         } label: {
