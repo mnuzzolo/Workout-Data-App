@@ -38,7 +38,7 @@ struct ContentView: View {
                     Text("Great work!")
                         .bold()
                         .font(.system(size: 26))
-                        .padding(.bottom, 2)
+                        .padding(.bottom, 1)
                     HStack {
                         Text("**\(controller.totalCaloriesBurned)** calories burned")
                         Image(systemName: "heart.fill")

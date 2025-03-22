@@ -88,7 +88,7 @@ extension ExerciseViewModel {
     // Get the max weight for given sets
     func maxWeightInSets(sets: [ExerciseSetSummary]) -> Double {
         var maxWeight = 0.0
-        for set in mostRecentSets {
+        for set in sets {
             if Int(set.weight ?? 0) > Int(maxWeight) {
                 maxWeight = Double(set.weight ?? 0.0)
             }
