@@ -25,4 +25,8 @@ class SetViewModel: ObservableObject {
     public var weight: String {
         return "\(set.weight ?? 0) lbs"
     }
+    
+    public var timeSpentActive: String {
+        return "\(String(set.timeSpentActive ?? 0)) seconds"
+    }
 }

@@ -36,6 +36,7 @@ struct ExerciseDetailView: View {
             Text(set.reps)
                 .foregroundStyle(.accent)
             Text(set.weight)
+            Text(set.timeSpentActive)
         }
     }
     
