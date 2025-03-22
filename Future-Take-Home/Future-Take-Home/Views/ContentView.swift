@@ -8,6 +8,8 @@
 import SwiftUI
 import SwiftData
 
+// Main View of the app - displays a header with calorie data
+// and a list of Exercises that have been completed that can be navigated to.
 struct ContentView: View {
     var controller: WorkoutsController
     
@@ -40,7 +42,7 @@ struct ContentView: View {
                         .font(.system(size: 26))
                         .padding(.bottom, 1)
                     HStack {
-                        Text("**\(controller.totalCaloriesBurned)** calories burned")
+                        Text("**\(String.longNum(controller.workoutSummaries.totalCaloriesBurned))** calories burned")
                         Image(systemName: "heart.fill")
                             .foregroundStyle(.accent)
                     }

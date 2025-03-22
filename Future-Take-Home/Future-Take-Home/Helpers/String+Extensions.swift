@@ -11,6 +11,11 @@ extension String {
         return self == UUID.nilUUIDString
     }
     
+    static public func longNum(_ num: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: num as NSNumber) ?? ""
+    }
 }
 
 extension Optional where Wrapped == String {

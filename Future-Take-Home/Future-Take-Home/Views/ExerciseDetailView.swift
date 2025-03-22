@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// Detail View for a given exercise. Displays a progress view,
+// as well as a list of the most recent weight & rep data recorded.
 struct ExerciseDetailView: View {
     
     @ObservedObject var viewModel: ExerciseViewModel

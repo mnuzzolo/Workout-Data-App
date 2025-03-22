@@ -31,8 +31,7 @@ class ExerciseViewModel: ObservableObject {
     }
     
     public var name: String {
-        // We should be able to grab the Name for the exercise from any exercise in the set
-        self.sets.first?.exerciseSet?.exercise?.name ?? "Unkown Exercise"
+        self.sets.exerciseName ?? "Unkown Exercise"
     }
     
     public var hand: String? {
@@ -85,41 +84,21 @@ extension ExerciseViewModel {
         return sets.filter({ Calendar.current.isDate($0.completedAt ?? Date(), inSameDayAs: leastRecentDate) })
     }
     
-    // Get the max weight for given sets
-    func maxWeightInSets(sets: [ExerciseSetSummary]) -> Double {
-        var maxWeight = 0.0
-        for set in sets {
-            if Int(set.weight ?? 0) > Int(maxWeight) {
-                maxWeight = Double(set.weight ?? 0.0)
-            }
-        }
-        return maxWeight
-    }
-    
     // Calculate the weight progress from the least recent to most recent sets
     var weightProgress: Double {
-        let mostRecentMaxWeight = maxWeightInSets(sets: mostRecentSets)
-        let leastRecentMaxWeight = maxWeightInSets(sets: leastRecentSets)
+        let mostRecentMaxWeight = mostRecentSets.maxWeight
+        let leastRecentMaxWeight = leastRecentSets.maxWeight
         guard mostRecentMaxWeight != 0, leastRecentMaxWeight != 0 else {
             return 0
         }
         
         return (mostRecentMaxWeight / leastRecentMaxWeight) - 1
     }
-    
-    // Get the reps completed for given sets
-    func repsInSets(sets: [ExerciseSetSummary]) -> Int {
-        var reps = 0
-        for set in sets {
-            reps += set.repsCompleted ?? 0
-        }
-        return reps
-    }
 
     // Calculate the reps progress from the least recent to most recent sets
     var repsProgress: Double {
-        let mostRecentReps = repsInSets(sets: mostRecentSets)
-        let leastRecentReps = repsInSets(sets: leastRecentSets)
+        let mostRecentReps = mostRecentSets.totalReps
+        let leastRecentReps = leastRecentSets.totalReps
         guard mostRecentReps != 0, leastRecentReps != 0 else {
             return 0
         }

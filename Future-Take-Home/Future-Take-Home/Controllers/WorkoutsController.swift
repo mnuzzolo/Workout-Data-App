@@ -9,10 +9,10 @@ import Foundation
 public class WorkoutsController: ObservableObject {
     
     // Full workout summary data, provided by JSON files
-    private var workoutSummaries = [WorkoutSummary]()
+    internal var workoutSummaries = [WorkoutSummary]()
     
     // Dictionary of Exercise Set data, stored by ID
-    private var excerciseHistory = [String: [ExerciseSetSummary]]()
+    internal var excerciseHistory = [String: [ExerciseSetSummary]]()
     
     init() {
         loadLocalData()
@@ -29,8 +29,6 @@ public class WorkoutsController: ObservableObject {
             }
         }
 
-        print("Loaded \(workoutSummaries.count) workout summaries.")
-        
         // Populate exercise set summary data by exercise
         for workout in workoutSummaries {
             for summary in workout.setSummaries {
@@ -44,8 +42,6 @@ public class WorkoutsController: ObservableObject {
                 }
             }
         }
-        
-        print("Loaded \(excerciseHistory.values.count) exercises.")
     }
     
     func getSortedExercises() -> [[ExerciseSetSummary]] {
@@ -59,15 +55,5 @@ public class WorkoutsController: ObservableObject {
                 return false
             }
         }
-    }
-    
-    var totalCaloriesBurned: String {
-        var calories = 0
-        for workout in workoutSummaries {
-            calories += workout.activeEnergyBurned ?? 0
-        }
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter.string(from: calories as NSNumber) ?? ""
     }
 }
