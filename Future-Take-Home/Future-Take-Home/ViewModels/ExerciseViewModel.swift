@@ -11,7 +11,7 @@ extension TimeInterval {
     static let oneDay = TimeInterval(86_400)
 }
 
-class ExerciseViewModel: ObservableObject {
+class ExerciseViewModel {
     let sets: [ExerciseSetSummary]
     
     init(sets: [ExerciseSetSummary]) {
@@ -19,7 +19,7 @@ class ExerciseViewModel: ObservableObject {
     }
     
     public var sortedSets: [ExerciseSetSummary] {
-        return sets.sorted(by: { $0.completedAt ?? Date() > $1.completedAt ?? Date() })
+        return sets.sortedByDate
     }
     
     public var displayName: String {

@@ -5,6 +5,8 @@
 //  Created by Mike Nuzzolo on 3/22/25.
 //
 
+import Foundation
+
 extension Array where Element == ExerciseSetSummary {
     
     // Find the max weight for given sets
@@ -30,6 +32,14 @@ extension Array where Element == ExerciseSetSummary {
     var exerciseName: String? {
         // We should be able to grab the Name for the exercise from any exercise in the set
         self.first?.exerciseSet?.exercise?.name
+    }
+    
+    public var sortedByDate: [ExerciseSetSummary] {
+        return self.sorted(by: { $0.completedAt ?? Date() > $1.completedAt ?? Date() })
+    }
+    
+    var id: String? {
+        self.first?.id
     }
 }
 

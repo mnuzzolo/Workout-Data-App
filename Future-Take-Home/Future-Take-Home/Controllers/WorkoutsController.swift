@@ -6,65 +6,49 @@
 
 import Foundation
 
+extension Int {
+    static let pageSize = 5
+}
+
 public class WorkoutsController: ObservableObject {
-    
-    // Full workout summary data, provided by JSON files
-    internal var workoutSummaries = [WorkoutSummary]()
-    
-    // Dictionary of Exercise Set data, stored by ID
-    internal var excerciseHistory = [String: [ExerciseSetSummary]]()
-    
+
     // Sorted array of ExerciseSetSummary arrays (alphabetically)
     @Published var sortedExercises = [[ExerciseSetSummary]]()
     
-    init(loadData: Bool = true) {
-        if loadData {
+    @Published var totalCalories = 0
+    
+    @Published var hasMoreData = true
+    
+    @Published var sortType = SortType.alphabetical {
+        didSet {
+            // When we change sort type, clear our data
+            sortedExercises = []
             Task {
-                await loadLocalData()
+                await fetchWorkouts()
             }
-        }
-    }
-
-    func loadLocalData() async {
-        let summaryUrls = Bundle.main.urls(forResourcesWithExtension: ".json", subdirectory: nil) ?? []
-        
-        // Populate workout summary data
-        for summaryUrl in summaryUrls {
-            if let workoutSummaryData = try? Data(contentsOf: summaryUrl),
-               let workoutSummary = try? JSONDecoder().decode(WorkoutSummary.self, from: workoutSummaryData) {
-                workoutSummaries.append(workoutSummary)
-            }
-        }
-
-        // Populate exercise set summary data by exercise
-        for workout in workoutSummaries {
-            for summary in workout.setSummaries {
-                if let id = summary.exerciseSet?.exercise?.id {
-                    if var arr = excerciseHistory[id] {
-                        arr.append(summary)
-                        excerciseHistory[id] = arr
-                    } else {
-                        excerciseHistory[id] = [summary]
-                    }
-                }
-            }
-        }
-        
-        await MainActor.run {
-            self.sortedExercises = getSortedExercises()
         }
     }
     
-    func getSortedExercises() -> [[ExerciseSetSummary]] {
-        return excerciseHistory.values.sorted {
-            if let lhs = $0.first, let rhs = $1.first {
-                if lhs == rhs {
-                    return lhs.exerciseSet?.exercise?.sideDisplayName ?? "" < rhs.exerciseSet?.exercise?.sideDisplayName ?? ""
-                }
-                return lhs > rhs
-            } else {
-                return false
+    internal var source: any WorkoutData
+    
+    init(loadData: Bool = true, source: any WorkoutData = LocalWorkoutsData()) {
+        self.source = source
+        if loadData {
+            Task {
+                await fetchWorkouts()
             }
+        }
+    }
+
+    public func fetchWorkouts(count: Int = 5, lastWorkoutId: String? = nil) async {
+        // Fake a delay to show paging
+        try? await Task.sleep(for: .seconds(0.25))
+
+        let newData = await source.fetchWorkouts(sort: self.sortType, count: count, lastWorkoutId: lastWorkoutId)
+        await MainActor.run {
+            self.sortedExercises.append(contentsOf: newData)
+            self.totalCalories = source.getTotalCalories()
+            self.hasMoreData = source.hasMoreData(count: sortedExercises.count)
         }
     }
 }

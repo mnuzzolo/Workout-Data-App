@@ -10,7 +10,7 @@ import SwiftUICore
 // List View item for a given exercise.
 // Displays the name and number of sets recorded.
 struct ExerciseListView: View {
-    @ObservedObject var viewModel: ExerciseViewModel
+    let viewModel: ExerciseViewModel
     var body: some View {
         HStack {
             VStack(alignment: .leading) {

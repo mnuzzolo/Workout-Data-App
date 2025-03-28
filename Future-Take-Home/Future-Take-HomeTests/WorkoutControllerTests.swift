@@ -15,7 +15,7 @@ class WorkoutControllerTests: XCTestCase {
 
     override func setUp() async throws {
         sut = WorkoutsController(loadData: false)
-        await sut.loadLocalData()
+        await sut.fetchWorkouts()
     }
 
     override func tearDown() {
@@ -23,13 +23,14 @@ class WorkoutControllerTests: XCTestCase {
     }
 
     func testWorkoutsController_OnInitLoadsData() {
-        XCTAssertTrue(sut.workoutSummaries.isNotEmpty)
-        XCTAssertTrue(sut.excerciseHistory.isNotEmpty)
+        let data = sut.source as! LocalWorkoutsData
+        XCTAssertTrue(data.workoutSummaries.isNotEmpty)
+        XCTAssertTrue(data.excerciseHistory.isNotEmpty)
     }
     
     func testWorkoutsController_VerifySortedExercises() async {
         var previousExercise = ""
-        for exercise in sut.getSortedExercises() {
+        for exercise in sut.sortedExercises {
             if previousExercise.isNotEmpty {
                 XCTAssertTrue(previousExercise <= exercise.exerciseName!)
             }

@@ -16,5 +16,6 @@ struct Future_Take_HomeApp: App {
         WindowGroup {
             ContentView(controller: controller)
         }
+        .modelContainer(for: WorkoutSwiftDataItem.self)
     }
 }

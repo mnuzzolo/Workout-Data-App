@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SetViewModel: ObservableObject {
+class SetViewModel {
     let set: ExerciseSetSummary
     
     init(set: ExerciseSetSummary) {

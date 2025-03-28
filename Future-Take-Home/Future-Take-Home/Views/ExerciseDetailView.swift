@@ -11,7 +11,7 @@ import SwiftUI
 // as well as a list of the most recent weight & rep data recorded.
 struct ExerciseDetailView: View {
     
-    @ObservedObject var viewModel: ExerciseViewModel
+   let viewModel: ExerciseViewModel
     
     var body: some View {
         Text(viewModel.displayName)

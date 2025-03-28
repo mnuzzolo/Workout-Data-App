@@ -17,6 +17,7 @@ struct ContentView: View {
         NavigationStack {
             List {
                 headerView
+                sortView
                 Section("Exercises") {
                     ForEach(Array(controller.sortedExercises), id: \.self) { exercise in
                         NavigationLink {
@@ -24,10 +25,13 @@ struct ContentView: View {
                         } label: {
                             ExerciseListView(viewModel: ExerciseViewModel(sets: exercise))
                         }
+                        // Display a progress view when we are loading data
+                        progressView(exercise: exercise)
                     }
                 }
             }
             .navigationTitle(Text("Your Exercises"))
+            
         }
     }
     
@@ -41,14 +45,41 @@ struct ContentView: View {
                         .bold()
                         .font(.system(size: 26))
                         .padding(.bottom, 1)
-                    HStack {
-                        Text("**\(String.longNum(controller.workoutSummaries.totalCaloriesBurned))** calories burned")
+                    HStack(spacing: 0) {
+                        if controller.totalCalories == 0 {
+                            ProgressView()
+                        } else {
+                            Text("**\(String.longNum(controller.totalCalories))**")
+                        }
+                        Text(" calories burned")
                         Image(systemName: "heart.fill")
                             .foregroundStyle(.accent)
+                            .padding(4)
                     }
                 }
                 Spacer()
             }
+        }
+    }
+    
+    @ViewBuilder
+    var sortView: some View {
+        Picker("Sort workouts by:", selection: $controller.sortType) {
+            Text("Alphabetical").tag(SortType.alphabetical)
+            Text("Most Sets").tag(SortType.mostSets)
+            Text("Most Recent").tag(SortType.mostRecent)
+        }
+    }
+    
+    @ViewBuilder
+    func progressView(exercise: [ExerciseSetSummary]) -> some View {
+        if exercise == controller.sortedExercises.last && controller.hasMoreData {
+            ProgressView()
+                .onAppear() {
+                    Task {
+                        await controller.fetchWorkouts(lastWorkoutId: exercise.id)
+                    }
+                }
         }
     }
 }
