@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SetViewModel {
+struct SetViewModel {
     let set: ExerciseSetSummary
     
     init(set: ExerciseSetSummary) {

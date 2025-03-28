@@ -11,7 +11,7 @@ extension TimeInterval {
     static let oneDay = TimeInterval(86_400)
 }
 
-class ExerciseViewModel {
+struct ExerciseViewModel {
     let sets: [ExerciseSetSummary]
     
     init(sets: [ExerciseSetSummary]) {
