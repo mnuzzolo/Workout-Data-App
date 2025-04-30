@@ -5,9 +5,10 @@ This app displays the user's data for a series of workouts, sorted by Exercise. 
 Key functionality:
 - Paging of data
 - Sorting
+- Mocked loading behavior & progress indicator
 - Navigation Stack
-- SwiftUI & Swift
 - MVVM
+- async/await 
 - Unit Tests using XCTest
 - Separation of Concerns
 
