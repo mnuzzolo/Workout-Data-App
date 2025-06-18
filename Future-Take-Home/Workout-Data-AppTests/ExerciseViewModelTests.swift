@@ -8,7 +8,7 @@
 
 import XCTest
 
-@testable import Future_Take_Home
+@testable import Workout_Data_App
 
 class ExerciseViewModelTests: XCTestCase {
     

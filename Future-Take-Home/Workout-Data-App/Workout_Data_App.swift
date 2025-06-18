@@ -1,5 +1,5 @@
 //
-//  Future_Take_HomeApp.swift
+//  Workout_Data_App.swift
 //  Future-Take-Home
 //
 //  Created by Mike Nuzzolo on 3/21/25.
@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct Future_Take_HomeApp: App {
+struct Workout_Data_App: App {
     private var controller = WorkoutsController()
     
     var body: some Scene {
