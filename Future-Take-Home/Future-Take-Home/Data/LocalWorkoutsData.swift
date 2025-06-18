@@ -88,9 +88,9 @@ class LocalWorkoutsData: WorkoutData {
                 }
             case .mostSets:
                 return $0.count > $1.count
-            default:
-                // TODO: we can update to add more types of sorts
-                return false
+                
+            case .mostRecent:
+                return $0.first?.completedAt ?? .distantPast > $1.first?.completedAt ?? .distantPast
             }
             return false
         }
